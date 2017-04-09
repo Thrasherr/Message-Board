@@ -1,5 +1,5 @@
 <?php
-	header("location:http://http://127.0.0.1/liuyanban.php");
+	header("location:http://http://127.0.0.1/Message-Board/liuyanban.php");
 
 class GP{
 	function post($key)
@@ -20,8 +20,9 @@ class GP{
 		echo "连接失败".$conn->connect_error;
 		exit;
 	}
+	$intime = time();//获得一个时间戳 time是php内置函数
 	
-	$sql = "INSERT INTO messages (id,nick,content) VALUES (NULL,'$user','$content')"; 
+	$sql = "INSERT INTO messages (id,nick,content,intime) VALUES (NULL,'$user','$content','$intime')"; 
 
 	if ($conn->query($sql))
 	{

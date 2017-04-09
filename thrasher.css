@@ -34,7 +34,7 @@
 .messages .message .info{overflow: hidden;}
 .messages .message .info .user{
     float: left;
-    font-size: 20px;    
+    font-size: 15px;    
     font-weight: bold;
 }
 .messages .message .info .time{
