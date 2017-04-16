@@ -16,10 +16,10 @@ class db{
 		$this->connect();
 		$this->dblink->query("set names UTF8");
 	}
-	function connect()
+	function connect() //连接数据库函数
 	{
 		$mysqli = new mysqli($this->host, $this->user, $this->passwd, $this->dbname);
-		$this->dblink = $mysqli;
+		$this->dblink = $mysqli; //将对象保存到$dblink,以后使用
 	}
 	function query($sql, $resultmode = MYSQLI_STORE_RESULT) //sql查询
 	{

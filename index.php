@@ -1,17 +1,24 @@
 <?php
-    date_default_timezone_set('Asia/Shanghai'); //设置时间
-
-    include 'dbku.php';
-
-    $db = new db('127.0.0.1', 'root', '', 'vanstt');
-    $db->connect_errno();
-    $db->query("set names UTF8");
+    include 'dbku.class.php'; //db库文件
+    include 'config.php'; //配置文件
+    include 'page.class.php';
+    include 'inputpp.class.php';
     
-    $sql = "SELECT * FROM messages order by id desc"; 
+    $input = new PG;
+    $pagedanye = 6; //每页显示条留言
+    $page = new page;//创建一个分页对象
+    $db = new db($host,$username,$password,$dbname);
+    $sql = "SELECT * FROM messages";
     $mysqli_result = $db->query($sql);
+    $pagezhoshu = $mysqli_result->num_rows;//留言总数
+    $pageshu = $pagezhoshu/$pagedanye; //页数
+    $maxpages = ceil($pageshu);//页数
 
+    $sql = "SELECT * FROM messages order by id desc limit $pagedanye"; 
+    $mysqli_result = $db->query($sql);
+    
     $rows = array();
-     while ($row = $mysqli_result->fetch_array()) {
+     while ($row = $mysqli_result->fetch_array()) { //迭代
          $rows[] = $row;
      }
 ?>
@@ -27,7 +34,7 @@
                 <form action="http://127.0.0.1/Message-Board/houtaichuli.php" method="POST">
                     <textarea name="content">请输入留言内容</textarea>
                     <input type="text" value="请输入用户名" class="user" name="user" />
-                    <input type="submit" value="发表留言" class="submit" />
+                    <input type="submit" value="请输入留言" class="submit" />
                     <br />
                 </form>
             </div>
@@ -57,12 +64,16 @@
                 }
 ?>
             </div>
+            <?php
+                for ($i=1;$i<=$maxpages;$i++) {
+            ?>       
             <div class="page">
-                <a href="http://127.0.0.1/Message-Board/liuyanban.php">1</a>
-                <a href="http://127.0.0.1/Message-Board/liuyanban.php">2</a>
-                <a href="http://127.0.0.1/Message-Board/liuyanban.php">3</a>
-                <a href="http://127.0.0.1/Message-Board/liuyanban.php">4</a>
+                <a href="index.php?p=<?php echo $i;?>">[<?php echo $i;?>]</a>
             </div>
+            <?php        
+                }
+            ?>
+             
         </div>
     </body>
 </html>
